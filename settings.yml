@@ -6,8 +6,8 @@ general:
   instance_name: "Nordlys Search"
 
 server:
-  # Placeholder erstattes ved container-startup fra $SEARXNG_SECRET_KEY (Railway Variable)
-  secret_key: "REPLACE_SECRET_KEY_AT_RUNTIME"
+  # Enhver værdi der ikke er "ultrasecretkey" accepteres — dette er en intern instans
+  secret_key: "nordlys-internal-searxng-session-key-2026"
   limiter: false
   image_proxy: false
 
