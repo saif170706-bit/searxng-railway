@@ -6,9 +6,9 @@ general:
   instance_name: "Nordlys Search"
 
 server:
-  # secret_key sættes IKKE her — det officielle startup-script
-  # auto-genererer en fra $SEARXNG_SECRET env var (eller laver en selv)
-  limiter: false          # Ingen rate-limit — vi er eneste bruger
+  # Placeholder erstattes ved container-startup fra $SEARXNG_SECRET_KEY (Railway Variable)
+  secret_key: "REPLACE_SECRET_KEY_AT_RUNTIME"
+  limiter: false
   image_proxy: false
 
 search:
@@ -16,7 +16,7 @@ search:
   autocomplete: ""
   formats:
     - html
-    - json                # PÅKRÆVET — vores leadfinder bruger ?format=json
+    - json
 
 engines:
   - name: google

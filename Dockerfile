@@ -1,4 +1,10 @@
 FROM searxng/searxng:latest
 
-# Kopier kun vores settings — brug det officielle images entrypoint
+# Settings med placeholder — secret key indsættes ved runtime fra env
 COPY settings.yml /etc/searxng/settings.yml
+
+# Startup-script: indsætter secret key og kalder officielt SearXNG-entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

@@ -1,15 +1,9 @@
 #!/bin/sh
-# Erstat ${SEARXNG_SECRET_KEY} i settings.yml med den faktiske env-variabel
-# (YAML parser fortolker ikke shell-syntax — vi gør det manuelt)
-sed -i "s|\${SEARXNG_SECRET_KEY}|${SEARXNG_SECRET_KEY}|g" /etc/searxng/settings.yml
+# Indsæt secret key fra Railway env-variabel i settings.yml ved startup
+# (Selve nøglen lever i Railway Variables — aldrig i git)
+if [ -n "$SEARXNG_SECRET_KEY" ]; then
+  sed -i "s|REPLACE_SECRET_KEY_AT_RUNTIME|${SEARXNG_SECRET_KEY}|g" /etc/searxng/settings.yml
+fi
 
-# Railway sætter $PORT dynamisk
-# 1 process + 2 threads = holder sig inden for 0.5 GB RAM
-exec uwsgi \
-  --http "0.0.0.0:${PORT:-8080}" \
-  --master \
-  --processes 1 \
-  --threads 2 \
-  --module "searx.webapp:application" \
-  --static-map "/static=/usr/local/searxng/searx/static" \
-  --static-map "/favicon.ico=/usr/local/searxng/searx/static/themes/simple/img/favicon.png"
+# Kald det officielle SearXNG entrypoint (håndterer granian/uwsgi startup)
+exec /usr/local/searxng/dockerfiles/docker-entrypoint.sh "$@"
