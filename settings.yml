@@ -1,5 +1,4 @@
 # SearXNG settings til Railway-deployment
-# Dokumentation: https://docs.searxng.org/admin/settings/index.html
 use_default_settings: true
 
 general:
@@ -7,9 +6,8 @@ general:
   instance_name: "Nordlys Search"
 
 server:
-  # Sæt SEARXNG_SECRET_KEY som Railway-variabel — brug en lang tilfældig streng
-  # Generer med: openssl rand -hex 32
-  secret_key: "${SEARXNG_SECRET_KEY}"
+  # secret_key sættes IKKE her — det officielle startup-script
+  # auto-genererer en fra $SEARXNG_SECRET env var (eller laver en selv)
   limiter: false          # Ingen rate-limit — vi er eneste bruger
   image_proxy: false
 
@@ -20,8 +18,6 @@ search:
     - html
     - json                # PÅKRÆVET — vores leadfinder bruger ?format=json
 
-# Aktiver de motorer vi vil trække resultater fra
-# SearXNG bruger alle som standard — fjern dem du ikke vil have
 engines:
   - name: google
     engine: google
@@ -50,6 +46,3 @@ ui:
 outgoing:
   request_timeout: 8.0
   max_request_timeout: 15.0
-  # Valgfrit: tilføj proxies her hvis du løber ind i blokering
-  # proxies:
-  #   all://: socks5://127.0.0.1:1080
