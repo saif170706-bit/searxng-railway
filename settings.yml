@@ -6,7 +6,6 @@ general:
   instance_name: "Nordlys Search"
 
 server:
-  # Enhver værdi der ikke er "ultrasecretkey" accepteres — dette er en intern instans
   secret_key: "nordlys-internal-searxng-session-key-2026"
   limiter: false
   image_proxy: false
@@ -19,25 +18,27 @@ search:
     - json
 
 engines:
-  - name: google
-    engine: google
-    shortcut: g
-    disabled: false
-
+  # ✅ Virker på Railway-IP
   - name: bing
     engine: bing
     shortcut: b
     disabled: false
 
+  # ❌ CAPTCHA-blokeret på Railway — deaktiveret for at undgå log-spam og spildt tid
+  - name: google
+    engine: google
+    shortcut: g
+    disabled: true
+
   - name: duckduckgo
     engine: duckduckgo
     shortcut: d
-    disabled: false
+    disabled: true
 
   - name: brave
     engine: brave
     shortcut: br
-    disabled: false
+    disabled: true
 
 ui:
   static_use_hash: true
